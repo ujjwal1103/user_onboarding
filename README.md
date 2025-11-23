@@ -1,73 +1,50 @@
-# React + TypeScript + Vite
+# User Onboarding Experience
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A guided onboarding flow for a music subscription product, built with **React 18**, **TypeScript**, **Redux Toolkit**, and **Vite**.  
+Users create a profile, pick favourite songs, enter payment details, and land on a polished home dashboard. Onboarding state persists in `localStorage` so they can resume or restart whenever they like.
 
-Currently, two official plugins are available:
+## Quick Start
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# install dependencies
+npm install
 
-## React Compiler
+# run the development server (http://localhost:5173)
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# build for production
+npm run build
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# preview the production build locally
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Core Features
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- **Multi-step onboarding:** Profile, favourite songs, payment details, and success screens managed with guarded routes.
+- **Song selection:** Users can add up to 10 custom songs; at least one input is always available to keep the flow simple.
+- **Payment capture:** Card details feed into a stylised virtual card on the post-onboarding home page.
+- **Home dashboard:** Summarises profile info, saved songs, and billing status inside a single viewport.
+- **Account switching:** The “Add another account” action clears persisted data, resets onboarding/auth state, and sends the user back to the login screen for a fresh start.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## Project Structure
+
+- `src/app/` – store configuration and typed hooks for Redux Toolkit.
+- `src/features/onboarding/` – slice logic plus individual step pages.
+- `src/features/home/HomePage.tsx` – dashboard rendered after onboarding completes.
+- `src/features/auth/` – mock auth flow and logout helpers.
+- `src/components/ui/` – shared UI primitives (powered by Tailwind CSS).
+
+## Development Notes
+
+- **State persistence:** Onboarding data is cached in `localStorage`. Use the “Add another account” button or clear storage manually to restart from scratch.
+- **Styling:** Tailwind utility classes are used throughout; adjust in `src/index.css` or extend with custom components.
+- **Linting:** Run `npm run lint` to apply ESLint checks across the TypeScript codebase.
+
+## Next Steps
+
+- Connect the onboarding flow to a real backend or API.
+- Extend validation (e.g., unique song picks or payment verification).
+- Add automated tests for the onboarding guard logic and slice reducers.
+
+Enjoy building on top of this onboarding experience!
