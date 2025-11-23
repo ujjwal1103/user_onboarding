@@ -1,20 +1,20 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
 import authReducer from '@/features/auth/authSlice'
 import onboardingReducer from '@/features/onboarding/onboardingSlice'
 import { loadAppState, saveAppState } from '@/lib/storage'
 
-type PersistedState = Partial<{
-  auth: ReturnType<typeof authReducer>
-  onboarding: ReturnType<typeof onboardingReducer>
-}>
+const rootReducer = combineReducers({
+  auth: authReducer,
+  onboarding: onboardingReducer,
+})
+
+export type RootState = ReturnType<typeof rootReducer>
+type PersistedState = Partial<RootState>
 
 const persistedState = loadAppState<PersistedState>()
 
 export const store = configureStore({
-  reducer: {
-    auth: authReducer,
-    onboarding: onboardingReducer,
-  },
+  reducer: rootReducer,
   preloadedState: persistedState,
 })
 
@@ -27,7 +27,5 @@ store.subscribe(() => {
   })
 })
 
-export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch
-
 
